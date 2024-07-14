@@ -1,7 +1,5 @@
 #include <Arduino.h>
 #include <LittleFS.h>
-// #include <SPIFFS.h>
-// #include <FFat.h>
 #include <time.h>
 
 #define LFS_FORMAT_ON_FAIL true
@@ -13,7 +11,6 @@ void listDir(fs::FS &fs, const char * dirname);
 
 void setup() {
 
-
     if (!LittleFS.begin(LFS_FORMAT_ON_FAIL, LFS_BASEPATH, LFS_MAXOPENFILES, LFS_PARTITIONLABEL)) {
         log_e("littlefs begin failed");
     } else {
@@ -21,7 +18,6 @@ void setup() {
     };
 
     listDir(LittleFS, "/");
-    log_i("all done");
 }
 
 void loop() {
@@ -49,20 +45,8 @@ void listDir(fs::FS &fs, const char * dirname){
         
         if(file.isDirectory()){
             log_i("d- %s", file.name());
-
-            // Serial.print(file.name());
-            // time_t t= file.getLastWrite();
-            // struct tm * tmstruct = localtime(&t);
-            // Serial.printf("  LAST WRITE: %d-%02d-%02d %02d:%02d:%02d\n",(tmstruct->tm_year)+1900,( tmstruct->tm_mon)+1, tmstruct->tm_mday,tmstruct->tm_hour , tmstruct->tm_min, tmstruct->tm_sec);
-
-
-            } else {
+        } else {
             log_i("f- %s %i", file.name(), file.size());
-
-            // time_t t= file.getLastWrite();
-            // struct tm * tmstruct = localtime(&t);
-            // Serial.printf("  LAST WRITE: %d-%02d-%02d %02d:%02d:%02d\n",(tmstruct->tm_year)+1900,( tmstruct->tm_mon)+1, tmstruct->tm_mday,tmstruct->tm_hour , tmstruct->tm_min, tmstruct->tm_sec);
-
         }
 
         file = root.openNextFile();
